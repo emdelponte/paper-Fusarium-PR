@@ -4,9 +4,6 @@
 
 The raw data were organized in excel and are available in both excel and csv formats. The data are archived and are publicly available in OSF.  Check on each data repository the policies regarding data use and citation.
 
-<img src = "https://osf.io/static/img/circle_logo.png" width = "25">
-[](DOI 10.17605/OSF.IO/7D3CH) 
-
 
 ```{r}
 library(readxl)
@@ -14,7 +11,7 @@ fus <- read_excel("data/fusarium-parana.xlsx")
 fus
 ```
 
-You can navigate the data in the [OSF repository](https://osf.io/wcs9m/)
+<img src = "https://osf.io/static/img/circle_logo.png" width = "25" align = absmiddle>You can navigate the data in the [OSF repository](https://osf.io/wcs9m/)
 
 
 
