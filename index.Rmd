@@ -4,7 +4,8 @@ This Research Compendium accompanies a manuscript entitled "Five-year survey unc
 
 The work resulted from doctoral study conducted at the Universidade Estadual de Maringá in cooperation with Fundação Agrária de Pesquisa Agropecuária, Mycotoxin Prevention and Applied Microbiology Research Unit, ARS-USDA and Universidade Federal de Viçosa.
 
-Authors, . Title of compendium. Online at https://doi.org/xxx/xxx
+Archived data and code: 
+https://doi.org/10.17605/OSF.IO/DZC9H
 
 Licenses:  
 Data: [CC-0](https://creativecommons.org/publicdomain/zero/1.0/) attribution requested in reuse

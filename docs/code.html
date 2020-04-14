@@ -451,7 +451,7 @@ div.tocify {
   </a>
 </li>
 <li>
-  <a href="https://github.com/emdelponte/research-compendium-website">
+  <a href="https://github.com/emdelponte/paper-Fusarium-PR">
     <span class="fa fa-github-square"></span>
      
     source
@@ -652,9 +652,6 @@ div.tocify {
 <a class="sourceLine" id="cb16-4" data-line-number="4">p1</a></code></pre></div>
 <p><img src="code_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
 </div>
-<div id="host-effect" class="section level3">
-<h3>Host effect</h3>
-</div>
 <div id="fgsc-by-host-within-year" class="section level3">
 <h3>FGSC by host within year</h3>
 <div id="wheat-1" class="section level4">
@@ -739,16 +736,79 @@ div.tocify {
 <p><img src="code_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
 </div>
 </div>
-<div id="toxin-data" class="section level3">
-<h3>Toxin data</h3>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">tox &lt;-<span class="st"> </span><span class="kw">read_excel</span>(<span class="st">&quot;data/toxin-ftsc.xlsx&quot;</span>,<span class="dv">1</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb23-2" data-line-number="2"><span class="st">  </span><span class="kw">gather</span>(toxin, value, <span class="dv">3</span><span class="op">:</span><span class="dv">7</span> )</a>
-<a class="sourceLine" id="cb23-3" data-line-number="3">tox</a></code></pre></div>
+</div>
+<div id="independence-tests" class="section level2">
+<h2>Independence tests</h2>
+<div id="host-vs.complexes" class="section level3">
+<h3>Host vs. complexes</h3>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">host_complexes &lt;-<span class="st"> </span>fus <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb23-2" data-line-number="2"><span class="st">  </span><span class="kw">tabyl</span>(Complexes, Host)</a>
+<a class="sourceLine" id="cb23-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb23-4" data-line-number="4"><span class="kw">chisq.test</span>(host_complexes)</a></code></pre></div>
+<pre><code>## Warning in stats::chisq.test(., ...): Chi-squared approximation may be incorrect</code></pre>
+<pre><code>## 
+##  Pearson&#39;s Chi-squared test
+## 
+## data:  host_complexes
+## X-squared = 12.159, df = 8, p-value = 0.1443</code></pre>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="kw">fisher.test</span>(host_complexes)</a></code></pre></div>
+<pre><code>## 
+##  Fisher&#39;s Exact Test for Count Data
+## 
+## data:  host_complexes
+## p-value = 0.07159
+## alternative hypothesis: two.sided</code></pre>
+</div>
+<div id="year-vs.complexes" class="section level3">
+<h3>year vs. complexes</h3>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1">year_complex2 &lt;-<span class="st"> </span>fus <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb28-2" data-line-number="2"><span class="st">  </span><span class="kw">tabyl</span>(Complex2, Year)</a>
+<a class="sourceLine" id="cb28-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb28-4" data-line-number="4"><span class="kw">fisher.test</span>(year_complex2, <span class="dt">simulate.p.value =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<pre><code>## 
+##  Fisher&#39;s Exact Test for Count Data with simulated p-value (based on
+##  2000 replicates)
+## 
+## data:  year_complex2
+## p-value = 0.0004998
+## alternative hypothesis: two.sided</code></pre>
+</div>
+<div id="fgsc-vs.host" class="section level3">
+<h3>FGSC vs. host</h3>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">host_fgsc &lt;-<span class="st"> </span>fus <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb30-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(Complex2 <span class="op">==</span><span class="st"> &quot;FGSC&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb30-3" data-line-number="3"><span class="st">  </span><span class="kw">tabyl</span>(Species, Host)</a>
+<a class="sourceLine" id="cb30-4" data-line-number="4"><span class="kw">chisq.test</span>(host_fgsc)</a></code></pre></div>
+<pre><code>## 
+##  Pearson&#39;s Chi-squared test
+## 
+## data:  host_fgsc
+## X-squared = 7.3975, df = 3, p-value = 0.06025</code></pre>
+</div>
+<div id="fgsc-vs.year" class="section level3">
+<h3>FGSC vs. year</h3>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1">year_fgsc &lt;-<span class="st"> </span>fus <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb32-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(Complex2 <span class="op">==</span><span class="st"> &quot;FGSC&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb32-3" data-line-number="3"><span class="st">  </span><span class="kw">tabyl</span>(Species, Year)</a>
+<a class="sourceLine" id="cb32-4" data-line-number="4"><span class="kw">fisher.test</span>(year_fgsc, <span class="dt">simulate.p.value =</span> T)</a></code></pre></div>
+<pre><code>## 
+##  Fisher&#39;s Exact Test for Count Data with simulated p-value (based on
+##  2000 replicates)
+## 
+## data:  year_fgsc
+## p-value = 0.0004998
+## alternative hypothesis: two.sided</code></pre>
+</div>
+</div>
+<div id="toxin-data" class="section level2">
+<h2>Toxin data</h2>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1">tox &lt;-<span class="st"> </span><span class="kw">read_excel</span>(<span class="st">&quot;data/toxin-ftsc.xlsx&quot;</span>,<span class="dv">1</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb34-2" data-line-number="2"><span class="st">  </span><span class="kw">gather</span>(toxin, value, <span class="dv">3</span><span class="op">:</span><span class="dv">7</span> )</a>
+<a class="sourceLine" id="cb34-3" data-line-number="3">tox</a></code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["code"],"name":[1],"type":["chr"],"align":["left"]},{"label":["species"],"name":[2],"type":["chr"],"align":["left"]},{"label":["toxin"],"name":[3],"type":["chr"],"align":["left"]},{"label":["value"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"F1356","2":"FTSC11","3":"ENB","4":"1.943060e+01"},{"1":"F1286","2":"FTSC11","3":"ENB","4":"0.000000e+00"},{"1":"F1303","2":"FTSC11","3":"ENB","4":"0.000000e+00"},{"1":"F1359","2":"FTSC11","3":"ENB","4":"0.000000e+00"},{"1":"F1464","2":"FTSC11","3":"ENB","4":"9.877055e+00"},{"1":"F1484","2":"FTSC11","3":"ENB","4":"6.120468e+00"},{"1":"F1563","2":"FTSC11","3":"ENB","4":"6.644598e+00"},{"1":"F1665","2":"FTSC11","3":"ENB","4":"1.260775e+01"},{"1":"F966","2":"FTSC11","3":"ENB","4":"3.985576e+00"},{"1":"F1664","2":"Fusarium acuminatum","3":"ENB","4":"1.035427e+02"},{"1":"F1002","2":"Fusarium avenaceum","3":"ENB","4":"5.930717e+00"},{"1":"F1064","2":"Fusarium avenaceum","3":"ENB","4":"4.945042e+00"},{"1":"F1097","2":"Fusarium avenaceum","3":"ENB","4":"1.735641e+01"},{"1":"F1168","2":"Fusarium avenaceum","3":"ENB","4":"2.640805e+00"},{"1":"F1349","2":"Fusarium avenaceum","3":"ENB","4":"3.000137e+01"},{"1":"F1373","2":"Fusarium avenaceum","3":"ENB","4":"1.082956e+01"},{"1":"F1390","2":"Fusarium avenaceum","3":"ENB","4":"0.000000e+00"},{"1":"F1439","2":"Fusarium avenaceum","3":"ENB","4":"0.000000e+00"},{"1":"F1452","2":"Fusarium avenaceum","3":"ENB","4":"5.545234e+00"},{"1":"F1453","2":"Fusarium avenaceum","3":"ENB","4":"2.882013e+01"},{"1":"F1467","2":"Fusarium avenaceum","3":"ENB","4":"2.451523e+00"},{"1":"F1520","2":"Fusarium avenaceum","3":"ENB","4":"4.637048e+01"},{"1":"F1650","2":"Fusarium avenaceum","3":"ENB","4":"2.591652e+01"},{"1":"F1661","2":"Fusarium avenaceum","3":"ENB","4":"5.381394e+01"},{"1":"F860","2":"Fusarium avenaceum","3":"ENB","4":"5.389147e+01"},{"1":"F1102","2":"Fusarium avenaceum","3":"ENB","4":"8.441135e+01"},{"1":"F1108","2":"Fusarium avenaceum","3":"ENB","4":"1.993079e+01"},{"1":"F1109","2":"Fusarium avenaceum","3":"ENB","4":"1.321122e+01"},{"1":"F1231","2":"Fusarium avenaceum","3":"ENB","4":"0.000000e+00"},{"1":"F1234","2":"Fusarium avenaceum","3":"ENB","4":"0.000000e+00"},{"1":"F1268","2":"Fusarium avenaceum","3":"ENB","4":"0.000000e+00"},{"1":"F1310","2":"Fusarium avenaceum","3":"ENB","4":"5.856553e+00"},{"1":"F1461","2":"Fusarium avenaceum","3":"ENB","4":"1.279952e+00"},{"1":"F1474","2":"Fusarium avenaceum","3":"ENB","4":"0.000000e+00"},{"1":"F1475","2":"Fusarium avenaceum","3":"ENB","4":"1.640164e-01"},{"1":"F1639","2":"Fusarium avenaceum","3":"ENB","4":"4.012726e+00"},{"1":"F911","2":"Fusarium avenaceum","3":"ENB","4":"1.762519e+00"},{"1":"F925","2":"Fusarium avenaceum","3":"ENB","4":"5.786628e+01"},{"1":"F977","2":"Fusarium avenaceum","3":"ENB","4":"1.068121e+02"},{"1":"F997","2":"Fusarium avenaceum","3":"ENB","4":"1.022911e+02"},{"1":"F1356","2":"FTSC11","3":"ENB1","4":"8.189557e-01"},{"1":"F1286","2":"FTSC11","3":"ENB1","4":"0.000000e+00"},{"1":"F1303","2":"FTSC11","3":"ENB1","4":"0.000000e+00"},{"1":"F1359","2":"FTSC11","3":"ENB1","4":"0.000000e+00"},{"1":"F1464","2":"FTSC11","3":"ENB1","4":"5.957681e-01"},{"1":"F1484","2":"FTSC11","3":"ENB1","4":"1.215674e+00"},{"1":"F1563","2":"FTSC11","3":"ENB1","4":"0.000000e+00"},{"1":"F1665","2":"FTSC11","3":"ENB1","4":"2.377790e+00"},{"1":"F966","2":"FTSC11","3":"ENB1","4":"0.000000e+00"},{"1":"F1664","2":"Fusarium acuminatum","3":"ENB1","4":"1.162988e+02"},{"1":"F1002","2":"Fusarium avenaceum","3":"ENB1","4":"0.000000e+00"},{"1":"F1064","2":"Fusarium avenaceum","3":"ENB1","4":"1.524665e+00"},{"1":"F1097","2":"Fusarium avenaceum","3":"ENB1","4":"4.130953e+00"},{"1":"F1168","2":"Fusarium avenaceum","3":"ENB1","4":"5.354460e-01"},{"1":"F1349","2":"Fusarium avenaceum","3":"ENB1","4":"1.071854e+01"},{"1":"F1373","2":"Fusarium avenaceum","3":"ENB1","4":"1.702992e+00"},{"1":"F1390","2":"Fusarium avenaceum","3":"ENB1","4":"0.000000e+00"},{"1":"F1439","2":"Fusarium avenaceum","3":"ENB1","4":"0.000000e+00"},{"1":"F1452","2":"Fusarium avenaceum","3":"ENB1","4":"1.221977e+00"},{"1":"F1453","2":"Fusarium avenaceum","3":"ENB1","4":"8.731744e+00"},{"1":"F1467","2":"Fusarium avenaceum","3":"ENB1","4":"4.287792e-01"},{"1":"F1520","2":"Fusarium avenaceum","3":"ENB1","4":"1.150586e+01"},{"1":"F1650","2":"Fusarium avenaceum","3":"ENB1","4":"8.512059e+00"},{"1":"F1661","2":"Fusarium avenaceum","3":"ENB1","4":"1.726369e+00"},{"1":"F860","2":"Fusarium avenaceum","3":"ENB1","4":"1.497028e+01"},{"1":"F1102","2":"Fusarium avenaceum","3":"ENB1","4":"2.648499e+01"},{"1":"F1108","2":"Fusarium avenaceum","3":"ENB1","4":"5.623029e+00"},{"1":"F1109","2":"Fusarium avenaceum","3":"ENB1","4":"2.999483e+00"},{"1":"F1231","2":"Fusarium avenaceum","3":"ENB1","4":"0.000000e+00"},{"1":"F1234","2":"Fusarium avenaceum","3":"ENB1","4":"0.000000e+00"},{"1":"F1268","2":"Fusarium avenaceum","3":"ENB1","4":"0.000000e+00"},{"1":"F1310","2":"Fusarium avenaceum","3":"ENB1","4":"0.000000e+00"},{"1":"F1461","2":"Fusarium avenaceum","3":"ENB1","4":"4.451426e-01"},{"1":"F1474","2":"Fusarium avenaceum","3":"ENB1","4":"5.476065e-01"},{"1":"F1475","2":"Fusarium avenaceum","3":"ENB1","4":"0.000000e+00"},{"1":"F1639","2":"Fusarium avenaceum","3":"ENB1","4":"1.363747e+00"},{"1":"F911","2":"Fusarium avenaceum","3":"ENB1","4":"3.616811e-01"},{"1":"F925","2":"Fusarium avenaceum","3":"ENB1","4":"2.469501e+01"},{"1":"F977","2":"Fusarium avenaceum","3":"ENB1","4":"6.609778e+01"},{"1":"F997","2":"Fusarium avenaceum","3":"ENB1","4":"1.468359e+02"},{"1":"F1356","2":"FTSC11","3":"ENA1","4":"0.000000e+00"},{"1":"F1286","2":"FTSC11","3":"ENA1","4":"0.000000e+00"},{"1":"F1303","2":"FTSC11","3":"ENA1","4":"8.418664e-01"},{"1":"F1359","2":"FTSC11","3":"ENA1","4":"0.000000e+00"},{"1":"F1464","2":"FTSC11","3":"ENA1","4":"0.000000e+00"},{"1":"F1484","2":"FTSC11","3":"ENA1","4":"9.791084e-02"},{"1":"F1563","2":"FTSC11","3":"ENA1","4":"0.000000e+00"},{"1":"F1665","2":"FTSC11","3":"ENA1","4":"2.680646e-01"},{"1":"F966","2":"FTSC11","3":"ENA1","4":"0.000000e+00"},{"1":"F1664","2":"Fusarium acuminatum","3":"ENA1","4":"7.637771e+01"},{"1":"F1002","2":"Fusarium avenaceum","3":"ENA1","4":"0.000000e+00"},{"1":"F1064","2":"Fusarium avenaceum","3":"ENA1","4":"1.766861e-01"},{"1":"F1097","2":"Fusarium avenaceum","3":"ENA1","4":"4.427565e-01"},{"1":"F1168","2":"Fusarium avenaceum","3":"ENA1","4":"1.901806e+00"},{"1":"F1349","2":"Fusarium avenaceum","3":"ENA1","4":"1.653110e+00"},{"1":"F1373","2":"Fusarium avenaceum","3":"ENA1","4":"1.471207e-01"},{"1":"F1390","2":"Fusarium avenaceum","3":"ENA1","4":"0.000000e+00"},{"1":"F1439","2":"Fusarium avenaceum","3":"ENA1","4":"0.000000e+00"},{"1":"F1452","2":"Fusarium avenaceum","3":"ENA1","4":"8.364783e-01"},{"1":"F1453","2":"Fusarium avenaceum","3":"ENA1","4":"8.434607e-01"},{"1":"F1467","2":"Fusarium avenaceum","3":"ENA1","4":"8.049229e-01"},{"1":"F1520","2":"Fusarium avenaceum","3":"ENA1","4":"1.026485e+00"},{"1":"F1650","2":"Fusarium avenaceum","3":"ENA1","4":"1.563750e+00"},{"1":"F1661","2":"Fusarium avenaceum","3":"ENA1","4":"2.285748e+00"},{"1":"F860","2":"Fusarium avenaceum","3":"ENA1","4":"2.246437e+01"},{"1":"F1102","2":"Fusarium avenaceum","3":"ENA1","4":"2.993331e+00"},{"1":"F1108","2":"Fusarium avenaceum","3":"ENA1","4":"8.159617e-01"},{"1":"F1109","2":"Fusarium avenaceum","3":"ENA1","4":"5.231303e-01"},{"1":"F1231","2":"Fusarium avenaceum","3":"ENA1","4":"0.000000e+00"},{"1":"F1234","2":"Fusarium avenaceum","3":"ENA1","4":"0.000000e+00"},{"1":"F1268","2":"Fusarium avenaceum","3":"ENA1","4":"0.000000e+00"},{"1":"F1310","2":"Fusarium avenaceum","3":"ENA1","4":"0.000000e+00"},{"1":"F1461","2":"Fusarium avenaceum","3":"ENA1","4":"0.000000e+00"},{"1":"F1474","2":"Fusarium avenaceum","3":"ENA1","4":"0.000000e+00"},{"1":"F1475","2":"Fusarium avenaceum","3":"ENA1","4":"0.000000e+00"},{"1":"F1639","2":"Fusarium avenaceum","3":"ENA1","4":"7.661404e-01"},{"1":"F911","2":"Fusarium avenaceum","3":"ENA1","4":"2.719601e-01"},{"1":"F925","2":"Fusarium avenaceum","3":"ENA1","4":"4.143168e+00"},{"1":"F977","2":"Fusarium avenaceum","3":"ENA1","4":"1.902461e+01"},{"1":"F997","2":"Fusarium avenaceum","3":"ENA1","4":"8.780204e+00"},{"1":"F1356","2":"FTSC11","3":"ENA","4":"0.000000e+00"},{"1":"F1286","2":"FTSC11","3":"ENA","4":"0.000000e+00"},{"1":"F1303","2":"FTSC11","3":"ENA","4":"0.000000e+00"},{"1":"F1359","2":"FTSC11","3":"ENA","4":"0.000000e+00"},{"1":"F1464","2":"FTSC11","3":"ENA","4":"0.000000e+00"},{"1":"F1484","2":"FTSC11","3":"ENA","4":"0.000000e+00"},{"1":"F1563","2":"FTSC11","3":"ENA","4":"0.000000e+00"},{"1":"F1665","2":"FTSC11","3":"ENA","4":"0.000000e+00"},{"1":"F966","2":"FTSC11","3":"ENA","4":"0.000000e+00"},{"1":"F1664","2":"Fusarium acuminatum","3":"ENA","4":"7.764256e+00"},{"1":"F1002","2":"Fusarium avenaceum","3":"ENA","4":"0.000000e+00"},{"1":"F1064","2":"Fusarium avenaceum","3":"ENA","4":"0.000000e+00"},{"1":"F1097","2":"Fusarium avenaceum","3":"ENA","4":"0.000000e+00"},{"1":"F1168","2":"Fusarium avenaceum","3":"ENA","4":"0.000000e+00"},{"1":"F1349","2":"Fusarium avenaceum","3":"ENA","4":"0.000000e+00"},{"1":"F1373","2":"Fusarium avenaceum","3":"ENA","4":"0.000000e+00"},{"1":"F1390","2":"Fusarium avenaceum","3":"ENA","4":"0.000000e+00"},{"1":"F1439","2":"Fusarium avenaceum","3":"ENA","4":"0.000000e+00"},{"1":"F1452","2":"Fusarium avenaceum","3":"ENA","4":"0.000000e+00"},{"1":"F1453","2":"Fusarium avenaceum","3":"ENA","4":"0.000000e+00"},{"1":"F1467","2":"Fusarium avenaceum","3":"ENA","4":"0.000000e+00"},{"1":"F1520","2":"Fusarium avenaceum","3":"ENA","4":"0.000000e+00"},{"1":"F1650","2":"Fusarium avenaceum","3":"ENA","4":"0.000000e+00"},{"1":"F1661","2":"Fusarium avenaceum","3":"ENA","4":"0.000000e+00"},{"1":"F860","2":"Fusarium avenaceum","3":"ENA","4":"0.000000e+00"},{"1":"F1102","2":"Fusarium avenaceum","3":"ENA","4":"0.000000e+00"},{"1":"F1108","2":"Fusarium avenaceum","3":"ENA","4":"0.000000e+00"},{"1":"F1109","2":"Fusarium avenaceum","3":"ENA","4":"0.000000e+00"},{"1":"F1231","2":"Fusarium avenaceum","3":"ENA","4":"0.000000e+00"},{"1":"F1234","2":"Fusarium avenaceum","3":"ENA","4":"0.000000e+00"},{"1":"F1268","2":"Fusarium avenaceum","3":"ENA","4":"0.000000e+00"},{"1":"F1310","2":"Fusarium avenaceum","3":"ENA","4":"0.000000e+00"},{"1":"F1461","2":"Fusarium avenaceum","3":"ENA","4":"0.000000e+00"},{"1":"F1474","2":"Fusarium avenaceum","3":"ENA","4":"0.000000e+00"},{"1":"F1475","2":"Fusarium avenaceum","3":"ENA","4":"0.000000e+00"},{"1":"F1639","2":"Fusarium avenaceum","3":"ENA","4":"0.000000e+00"},{"1":"F911","2":"Fusarium avenaceum","3":"ENA","4":"0.000000e+00"},{"1":"F925","2":"Fusarium avenaceum","3":"ENA","4":"1.845115e-02"},{"1":"F977","2":"Fusarium avenaceum","3":"ENA","4":"0.000000e+00"},{"1":"F997","2":"Fusarium avenaceum","3":"ENA","4":"0.000000e+00"},{"1":"F1356","2":"FTSC11","3":"MON","4":"9.163917e-02"},{"1":"F1286","2":"FTSC11","3":"MON","4":"5.933042e-04"},{"1":"F1303","2":"FTSC11","3":"MON","4":"2.320700e-01"},{"1":"F1359","2":"FTSC11","3":"MON","4":"1.508413e-03"},{"1":"F1464","2":"FTSC11","3":"MON","4":"7.535433e+00"},{"1":"F1484","2":"FTSC11","3":"MON","4":"9.100260e+00"},{"1":"F1563","2":"FTSC11","3":"MON","4":"9.077708e+00"},{"1":"F1665","2":"FTSC11","3":"MON","4":"5.134613e+00"},{"1":"F966","2":"FTSC11","3":"MON","4":"6.228963e-04"},{"1":"F1664","2":"Fusarium acuminatum","3":"MON","4":"3.047027e+00"},{"1":"F1002","2":"Fusarium avenaceum","3":"MON","4":"2.095011e-01"},{"1":"F1064","2":"Fusarium avenaceum","3":"MON","4":"5.575586e+00"},{"1":"F1097","2":"Fusarium avenaceum","3":"MON","4":"3.680308e+00"},{"1":"F1168","2":"Fusarium avenaceum","3":"MON","4":"8.956253e-01"},{"1":"F1349","2":"Fusarium avenaceum","3":"MON","4":"3.910066e+00"},{"1":"F1373","2":"Fusarium avenaceum","3":"MON","4":"3.680384e+00"},{"1":"F1390","2":"Fusarium avenaceum","3":"MON","4":"2.964012e-04"},{"1":"F1439","2":"Fusarium avenaceum","3":"MON","4":"1.600272e-03"},{"1":"F1452","2":"Fusarium avenaceum","3":"MON","4":"1.866715e+00"},{"1":"F1453","2":"Fusarium avenaceum","3":"MON","4":"1.321528e+01"},{"1":"F1467","2":"Fusarium avenaceum","3":"MON","4":"8.089021e-01"},{"1":"F1520","2":"Fusarium avenaceum","3":"MON","4":"6.491491e+00"},{"1":"F1650","2":"Fusarium avenaceum","3":"MON","4":"3.295925e+00"},{"1":"F1661","2":"Fusarium avenaceum","3":"MON","4":"7.140525e+00"},{"1":"F860","2":"Fusarium avenaceum","3":"MON","4":"6.867506e+00"},{"1":"F1102","2":"Fusarium avenaceum","3":"MON","4":"1.440310e+01"},{"1":"F1108","2":"Fusarium avenaceum","3":"MON","4":"1.750165e+01"},{"1":"F1109","2":"Fusarium avenaceum","3":"MON","4":"1.104040e-03"},{"1":"F1231","2":"Fusarium avenaceum","3":"MON","4":"3.822467e-04"},{"1":"F1234","2":"Fusarium avenaceum","3":"MON","4":"9.650363e-04"},{"1":"F1268","2":"Fusarium avenaceum","3":"MON","4":"1.235581e+00"},{"1":"F1310","2":"Fusarium avenaceum","3":"MON","4":"1.004702e-01"},{"1":"F1461","2":"Fusarium avenaceum","3":"MON","4":"8.161031e-04"},{"1":"F1474","2":"Fusarium avenaceum","3":"MON","4":"5.083632e-04"},{"1":"F1475","2":"Fusarium avenaceum","3":"MON","4":"8.098690e-01"},{"1":"F1639","2":"Fusarium avenaceum","3":"MON","4":"5.776402e+00"},{"1":"F911","2":"Fusarium avenaceum","3":"MON","4":"2.441591e+00"},{"1":"F925","2":"Fusarium avenaceum","3":"MON","4":"9.259926e+00"},{"1":"F977","2":"Fusarium avenaceum","3":"MON","4":"1.325756e+01"},{"1":"F997","2":"Fusarium avenaceum","3":"MON","4":"3.979333e+00"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
-</div>
 </div>
 </div>
 

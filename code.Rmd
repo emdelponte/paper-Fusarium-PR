@@ -207,9 +207,6 @@ ggsave("figs/fig2.png", width =7, height =4)
 p1
 ```
 
-### Host effect 
-
-
 
 ### FGSC by host within year
 
@@ -308,8 +305,51 @@ Fig3CD
 ```
 
 
+## Independence tests
 
-### Toxin data
+### Host vs. complexes
+
+```{r}
+host_complexes <- fus %>% 
+  tabyl(Complexes, Host)
+
+chisq.test(host_complexes)
+fisher.test(host_complexes)
+
+```
+
+### year vs. complexes
+
+```{r}
+year_complex2 <- fus %>% 
+  tabyl(Complex2, Year)
+
+fisher.test(year_complex2, simulate.p.value = TRUE)
+
+```
+
+### FGSC vs. host
+
+```{r}
+host_fgsc <- fus %>% 
+  filter(Complex2 == "FGSC") %>% 
+  tabyl(Species, Host)
+chisq.test(host_fgsc)
+
+```
+
+### FGSC vs. year
+```{r}
+year_fgsc <- fus %>% 
+  filter(Complex2 == "FGSC") %>% 
+  tabyl(Species, Year)
+fisher.test(year_fgsc, simulate.p.value = T)
+
+```
+
+
+
+## Toxin data
 
 ```{r}
 tox <- read_excel("data/toxin-ftsc.xlsx",1) %>% 

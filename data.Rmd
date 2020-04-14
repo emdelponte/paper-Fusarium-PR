@@ -2,19 +2,24 @@
 
 ## Raw data 
 
-The data were obtained from xx and were organized in xx excel/csv files. The example file is in the wide format where each day of assessment is in a different column, etc.
-
-## Data wrangling
-
-The original files were modified as following. The names of the variables were changed to.. The original wide format was retained and will be transformed using the dplyr functions, etc.
-
-
-## Download 
-
-The data are deposited in xx public repositories where they can be downloaded. Check on each data repository the policies regarding data use and citation.
+The raw data were organized in excel and are available in both excel and csv formats. The data are archived and are publicly available in OSF.  Check on each data repository the policies regarding data use and citation.
 
 <img src = "https://osf.io/static/img/circle_logo.png" width = "25">
 [](DOI 10.17605/OSF.IO/7D3CH) 
+
+
+```{r}
+library(readxl)
+fus <- read_excel("data/fusarium-parana.xlsx")
+fus
+```
+
+You can navigate the data in the [OSF repository](https://osf.io/wcs9m/)
+
+
+
+
+
 
 
 
