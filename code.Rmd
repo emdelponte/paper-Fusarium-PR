@@ -79,7 +79,7 @@ fus %>%
 Fig1A <- fus %>% 
   tabyl(Host) %>% 
     ggplot(aes(reorder(Host, n), n, label = n))+
-     geom_col(fill = "#990033", color = "black", size = 0.5)+
+     geom_col(fill = "#ffcc99", color = "black", size = 0.5)+
   theme(axis.text.x=element_text(face="italic"))+
       geom_text(position = position_dodge(width = 1),
             hjust = 0.5, vjust = -0.2) +
@@ -102,7 +102,7 @@ fus %>%
 Fig1B <- fus %>% 
   tabyl(Year) %>% 
     ggplot(aes(Year,n, label = n))+
-    geom_col(fill = "#990033", color = "black", size = 0.5)+
+    geom_col(fill = "#ffcc99", color = "black", size = 0.5)+
   theme_light()+
     geom_text(hjust = 0.5, vjust = -0.2) +
   labs(x = "", y = "Number of strains")+
@@ -124,7 +124,7 @@ fus %>%
 Fig1C <- fus %>% 
   tabyl(Complexes) %>% 
     ggplot(aes(reorder(Complexes, n),n, label = n))+
-    geom_col(fill = "#990033", color = "black", size = 0.5)+
+    geom_col(fill = "#ffcc99", color = "black", size = 0.5)+
    coord_flip()+
   theme(axis.text.x=element_text(face="italic"))+
       geom_text(position = position_dodge(width = 1),
@@ -207,8 +207,11 @@ ggsave("figs/fig2.png", width =7, height =4)
 p1
 ```
 
+### Host effect 
 
-### FGSC by host withi year
+
+
+### FGSC by host within year
 
 #### Wheat
 

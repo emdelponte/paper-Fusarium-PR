@@ -17,7 +17,7 @@ output:
      smooth_scroll: false
 
 navbar:
-  title: Survey of <i>Fusarium spp.</i> in wheat and Barley, PR state Brazil 
+  title: <i>Fusarium spp.</i> in wheat and Barley 
   right:
   - text: About
     icon: fa fa-home

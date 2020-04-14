@@ -1,27 +1,13 @@
 % About
+<img src = "figs/cover.png" width =300 align = right> 
+This Research Compendium accompanies a manuscript entitled "Five-year survey uncovers extensive diversity and temporal fluctuations among Fusarium head blight pathogens of wheat and barley in Brazil". Link to Preprint here.
 
-This is a Research Compendium that accompanies a manuscript entitled ": " 
-
-## Project team
-
-### Methodology
-
-The data were collected during surveys conducted
-
-
-### Citation
-
-Please cite this research compendium as:  
+The work resulted from doctoral study conducted at the Universidade Estadual de Maringá in cooperation with Fundação Agrária de Pesquisa Agropecuária, Mycotoxin Prevention and Applied Microbiology Research Unit, ARS-USDA and Universidade Federal de Viçosa.
 
 Authors, . Title of compendium. Online at https://doi.org/xxx/xxx
 
-### Licences
-
+Licenses:  
 Data: [CC-0](https://creativecommons.org/publicdomain/zero/1.0/) attribution requested in reuse
-Manuscript: [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/)  
-Code: [MIT](https://opensource.org/licenses/MIT) year: 2017, copyright holder: Emerson Del Ponte
+Code: [MIT](https://opensource.org/licenses/MIT) year: 2020, copyright holder: Emerson Del Ponte
 
-### Contributions
-
-We welcome contributions from everyone. Before you get started, please see our [contributor guidelines](CONTRIBUTING.html). Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.html). By participating in this project you agree to abide by its terms.
 
